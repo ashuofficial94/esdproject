@@ -58,12 +58,14 @@ public class InitializeDB {
         session.save(courseDomain4);
         session.save(courseDomain5);
 
-        Grades grade1 = new Grades('A', 85);
-        Grades grade2 = new Grades('B', 75);
-        Grades grade3 = new Grades('C', 60);
-        Grades grade4 = new Grades('D', 50);
-        Grades grade5 = new Grades('F', 40);
+        Grades grade0 = new Grades(0, ' ', 0);
+        Grades grade1 = new Grades(1, 'A', 85);
+        Grades grade2 = new Grades(2, 'B', 75);
+        Grades grade3 = new Grades(3, 'C', 60);
+        Grades grade4 = new Grades(4, 'D', 50);
+        Grades grade5 = new Grades(5, 'F', 40);
 
+        session.save(grade0);
         session.save(grade1);
         session.save(grade2);
         session.save(grade3);

@@ -7,21 +7,55 @@ import com.project.bean.Students;
 import com.project.dao.template.GradesDAOTemplate;
 import com.project.utils.SessionUtil;
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GradesDAO implements GradesDAOTemplate {
     @Override
-    public Grades getStudentGrade(Students student, Courses course) {
+    public boolean changeStudentGrade(int student_id, int course_id, int grade_id) {
+        try(Session session = SessionUtil.getSession()) {
+
+            session.beginTransaction();
+            String sql = String.format("update Student_Courses set grade_id = %d where student_id = %d and course_id = %d",
+                        grade_id, student_id, course_id);
+
+            NativeQuery query = session.createSQLQuery(sql);
+            int rows = query.executeUpdate();
+
+            session.getTransaction().commit();
+            session.close();
+
+            if(rows > 0) return true;
+            return false;
+        }
+
+        catch(HibernateException exception) {
+            System.out.println(exception.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public Grades getStudentGrade(int student_id, int course_id) {
 
         try(Session session = SessionUtil.getSession()) {
 
-            Query query = session.createQuery("from StudentCourses where student_id =: student_id and course_id =: course_id");
-            query.setParameter("student_id", student.getStudent_id());
-            query.setParameter("course_id", course.getCourse_id());
+            String sql = String.format("SELECT * FROM Student_Courses where student_id = %d and course_id = %d;",
+            student_id, course_id);
+
+            SQLQuery query = session.createSQLQuery(sql);
+            query.addEntity(StudentCourses.class);
+
+
+//            Query query = session.createQuery("from StudentCourses where student_id =: student_id and course_id =: course_id");
+//            query.setParameter("student_id", student_id);
+//            query.setParameter("course_id", course_id);
 
             for(final Object fetch: query.list()) {
                 StudentCourses studentCourses = (StudentCourses) fetch;

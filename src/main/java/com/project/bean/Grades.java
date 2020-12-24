@@ -11,7 +11,6 @@ import java.util.List;
 public class Grades implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer grade_id;
 
     @Column(unique = true)
@@ -30,7 +29,8 @@ public class Grades implements Serializable {
         return studentCoursesList;
     }
 
-    public Grades(Character letter_grade, Integer grade_points) {
+    public Grades(Integer grade_id, Character letter_grade, Integer grade_points) {
+        this.grade_id = grade_id;
         this.letter_grade = letter_grade;
         this.grade_points = grade_points;
     }

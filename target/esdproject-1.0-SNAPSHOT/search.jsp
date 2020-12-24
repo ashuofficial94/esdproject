@@ -24,11 +24,11 @@
     </form>
 </div>
 <div id="course_search">
-    <form id="search_course">
+    <form id="search_course" onsubmit="return false;">
         <div class="form-group row">
             <label class="form-control col-2" style="background-color: transparent">Course: </label>
             <select id="courses" class="form-control col-8" disabled></select>
-            <button id="search_button" class="btn btn-success btn-sm form-control col-2" type="submit" disabled> Search </button>
+            <button id="search_button" class="btn btn-success btn-sm form-control col-2" type="button" disabled> Search </button>
         </div>
     </form>
 </div>

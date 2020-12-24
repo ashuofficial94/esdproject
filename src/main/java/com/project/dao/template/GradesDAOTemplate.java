@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface GradesDAOTemplate {
 
-    public Grades getStudentGrade(Students student, Courses course);
+    public Grades getStudentGrade(int student_id, int course_id);
     public List<Grades> getGrades();
+    public boolean changeStudentGrade(int student_id, int course_id, int grade_id);
 }
