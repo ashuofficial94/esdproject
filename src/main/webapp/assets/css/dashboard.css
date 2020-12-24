@@ -1,0 +1,22 @@
+
+body {
+    background-color: #D6CFCE;
+    font-family: 'Raleway';
+}
+
+nav {
+    border-radius: 5px;
+}
+
+#domain_form {
+    position: absolute;
+    left: 40%;
+    width: 600px;
+}
+
+#notification {
+    position: absolute;
+    width: 600px;
+    display: none;
+    margin-top: 20px;
+}

@@ -1,0 +1,13 @@
+
+body {
+    background-color: #f5f5f5;
+    font-family: 'Raleway';
+}
+
+.centered {
+    margin: 0;
+    position: absolute;
+    top: 30%;
+    left: 36%;
+    width: 400px;
+}
