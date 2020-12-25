@@ -20,9 +20,12 @@ public class Test {
         GradesDAO gradesDAO = new GradesDAO();
         List<Grades> grades = gradesDAO.getGrades();
 
-        for(Grades grade: grades) {
-            System.out.println(grade.getLetter_grade());
-        }
+        System.out.println(gradesDAO.getStudentGrade(4, 5).getLetter_grade());
+        Grades grade = gradesDAO.changeStudentGrade(4, 5, 1);
+
+        System.out.println(gradesDAO.getStudentGrade(4, 5).getLetter_grade());
+        System.out.println(grade.getLetter_grade());
+
         session.getTransaction().commit();
         session.close();
     }

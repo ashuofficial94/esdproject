@@ -11,7 +11,7 @@ import java.util.List;
 public class Students implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer student_id;
 
     @Column(nullable = false, unique = true)
     private String roll_number;
@@ -38,8 +38,8 @@ public class Students implements Serializable {
     @JoinColumn(name="domain")
     private Domains domain;
 
-    public void setStudent_id(Integer id) {
-        this.id = id;
+    public void setStudent_id(Integer student_id) {
+        this.student_id = student_id;
     }
 
     public void setStudentCoursesList(List<StudentCourses> studentCoursesList) {
@@ -49,9 +49,7 @@ public class Students implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student_id")
     private List<StudentCourses> studentCoursesList = new ArrayList<StudentCourses>();
 
-    public Integer getStudent_id() {
-        return id;
-    }
+    public Integer getStudent_id() { return student_id; }
 
     @JsonbTransient
     public List<StudentCourses> getStudentCoursesList() {

@@ -51,7 +51,7 @@ search_button.addEventListener("click", async (e) =>  {
                 grade = grade_data['letter_grade'];
             }
 
-            response = await fetch(('api/grades/get-grades'), {
+            response = await fetch('api/grades/get-grades', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
@@ -76,7 +76,7 @@ search_button.addEventListener("click", async (e) =>  {
 
             let col4 = document.createElement("TD");
             let select = document.createElement("SELECT");
-            select.setAttribute("id", "change-grade");
+            select.setAttribute("id", "change-grade"+student['student_id']);
             select.setAttribute("class", "form-control");
             select.setAttribute("onchange",
                 "(changeGrade(\""+student['student_id']+"\",\""+course_id+"\"))()");
@@ -119,23 +119,18 @@ search_button.addEventListener("click", async (e) =>  {
 
 async function changeGrade(student_id, course_id) {
 
-    let grade_id = document.getElementById("change-grade").value;
-    let student_obj = {student_id: student_id};
-    let course_obj = {course_id: course_id};
-    let grade_obj = {grade_id: grade_id};
+    let grade_id = document.getElementById("change-grade"+student_id).value;
 
-    let response = await fetch (('api/grades/change-grade'), {
+    let form_data = new FormData();
+    form_data.append('student_id', student_id);
+    form_data.append('course_id', course_id);
+    form_data.append('grade_id', grade_id);
+
+
+    let response = await fetch ('api/grades/change', {
         method: 'POST',
-        header: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify({
-            student_id: student_obj,
-            course_id: course_obj,
-            grade_id: grade_obj
-        })
+        body: form_data
     });
-
 
     let data = await response.json();
 
