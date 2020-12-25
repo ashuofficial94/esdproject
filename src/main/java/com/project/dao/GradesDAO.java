@@ -12,13 +12,12 @@ import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GradesDAO implements GradesDAOTemplate {
     @Override
-    public boolean changeStudentGrade(int student_id, int course_id, int grade_id) {
+    public Grades changeStudentGrade(int student_id, int course_id, int grade_id) {
         try(Session session = SessionUtil.getSession()) {
 
             session.beginTransaction();
@@ -28,16 +27,19 @@ public class GradesDAO implements GradesDAOTemplate {
             NativeQuery query = session.createSQLQuery(sql);
             int rows = query.executeUpdate();
 
-            session.getTransaction().commit();
-            session.close();
+            Query get_grade_query = session.createQuery("from Grades where grade_id =: grade_id");
+            get_grade_query.setParameter("grade_id", grade_id);
 
-            if(rows > 0) return true;
-            return false;
+            for(final Object fetch: get_grade_query.list()) {
+                return (Grades) fetch;
+            }
+
+            return null;
         }
 
         catch(HibernateException exception) {
             System.out.println(exception.getLocalizedMessage());
-            return false;
+            return null;
         }
     }
 
@@ -49,7 +51,7 @@ public class GradesDAO implements GradesDAOTemplate {
             String sql = String.format("SELECT * FROM Student_Courses where student_id = %d and course_id = %d;",
             student_id, course_id);
 
-            SQLQuery query = session.createSQLQuery(sql);
+            NativeQuery query = session.createSQLQuery(sql);
             query.addEntity(StudentCourses.class);
 
 

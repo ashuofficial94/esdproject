@@ -51,16 +51,20 @@ public class GradesController {
     @POST
     @Path("/change-grade")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
 
     public Response changeGrades(StudentCourses studentCourses) {
-        boolean result = gradesService.changeStudentGrade(studentCourses.getStudent_id().getStudent_id(),
+
+        Grades grade = new Grades();
+
+        if(studentCourses.getGrade_id().getGrade_id() == 100)
+            grade.setLetter_grade(' ');
+
+        else
+            grade = gradesService.changeStudentGrade(studentCourses.getStudent_id().getStudent_id(),
                 studentCourses.getCourse_id().getCourse_id(),
                 studentCourses.getGrade_id().getGrade_id());
 
-        if(result) {
-            return Response.ok().build();
-        }
-
-        return Response.noContent().build();
+        return Response.ok().entity(grade).build();
     }
 }

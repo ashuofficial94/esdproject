@@ -10,5 +10,5 @@ public interface GradesDAOTemplate {
 
     public Grades getStudentGrade(int student_id, int course_id);
     public List<Grades> getGrades();
-    public boolean changeStudentGrade(int student_id, int course_id, int grade_id);
+    public Grades changeStudentGrade(int student_id, int course_id, int grade_id);
 }

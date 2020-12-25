@@ -56,7 +56,7 @@ search_button.addEventListener("click", async (e) =>  {
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 }
-            })
+            });
 
             let grade_data = await response.json();
             let row = document.createElement("TR");
@@ -79,7 +79,7 @@ search_button.addEventListener("click", async (e) =>  {
             select.setAttribute("id", "change-grade");
             select.setAttribute("class", "form-control");
             select.setAttribute("onchange",
-                "changeGrade(\""+student['student_id']+"\",\""+course_id+"\")");
+                "(changeGrade(\""+student['student_id']+"\",\""+course_id+"\"))()");
 
             let option = document.createElement("OPTION");
             option.setAttribute("disabled", "true");
@@ -99,7 +99,7 @@ search_button.addEventListener("click", async (e) =>  {
             }
 
             option = document.createElement("OPTION");
-            option.setAttribute("value", "0");
+            option.setAttribute("value", "100");
             text = document.createTextNode("Not Graded");
             option.appendChild(text);
             select.appendChild(option);
@@ -112,18 +112,33 @@ search_button.addEventListener("click", async (e) =>  {
             row.appendChild(col4);
 
             student_table.appendChild(row);
-
         }
     }
     document.getElementById('search_button').disabled = false;
 });
 
-function changeGrade(student_id, course_id) {
+async function changeGrade(student_id, course_id) {
+
     let grade_id = document.getElementById("change-grade").value;
-    console.log(student_id);
-    console.log(course_id);
-    console.log(grade_id);
+    let student_obj = {student_id: student_id};
+    let course_obj = {course_id: course_id};
+    let grade_obj = {grade_id: grade_id};
+
+    let response = await fetch (('api/grades/change-grade'), {
+        method: 'POST',
+        header: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({
+            student_id: student_obj,
+            course_id: course_obj,
+            grade_id: grade_obj
+        })
+    });
+
+
+    let data = await response.json();
+
+    let grade = document.getElementById("grade_id"+student_id);
+    grade.innerText = data['letter_grade'];
 }
-
-
-
